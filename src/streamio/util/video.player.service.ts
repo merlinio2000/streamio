@@ -26,6 +26,7 @@ export class VideoPlayerService {
         const directLink = await StreamioPuppeteerService.getVidDirectLink(toPlay.vidUrl);
 
         const vidPlayerExe = this.configService.get<string>("video-player.exe");
+        const vidPlayerPreURLFlags = this.configService.get<string>("video-player.pre-url-flags")
 
         this.logger.log(`Starting video player with os command<${vidPlayerExe} ${directLink}>`);
 
@@ -35,7 +36,7 @@ export class VideoPlayerService {
             }
         }
 
-        this.vidPlayerProc = spawn(vidPlayerExe, [directLink]);
+        this.vidPlayerProc = spawn(vidPlayerExe, [vidPlayerPreURLFlags, directLink]);
 
         this.vidPlayerProc.stdout.on("data", data => {
             this.logger.log(`stdout: ${data}`);

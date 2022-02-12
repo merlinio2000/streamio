@@ -1,5 +1,6 @@
 video-player:
   exe: 'mpv'
+  pre-url-flags: '--fs'
   ipc:
     exe-suffix-socket-location: '--input-ipc-server=/tmp/mpvsocket'
     pause:  '{"command": ["cycle", "pause"]}'
