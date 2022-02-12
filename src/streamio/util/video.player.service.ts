@@ -8,6 +8,7 @@ import { StreamioPuppeteerService } from './puppeteer.master.js';
 @Injectable()
 export class VideoPlayerService {
 
+
     private readonly logger = new Logger(VideoPlayerService.name);
     private vidPlayerProc: ChildProcessWithoutNullStreams = null;
     private startUpSnapshot = {
@@ -21,14 +22,12 @@ export class VideoPlayerService {
     constructor(private readonly configService: ConfigService) { }
 
 
-    async playEpisode(toPlay: EpisodeRequest): Promise<Response> {
-
-        const directLink = await StreamioPuppeteerService.getVidDirectLink(toPlay.vidUrl);
+    async playEpisode(directLink: URL): Promise<Response> {
 
         const vidPlayerExe = this.configService.get<string>("video-player.exe");
         const vidPlayerPreURLFlags = this.configService.get<string>("video-player.pre-url-flags")
 
-        this.logger.log(`Starting video player with os command<${vidPlayerExe} ${directLink}>`);
+        this.logger.log(`Starting video player with os command<${vidPlayerExe} ${directLink.toString()}>`);
 
         if (this.vidPlayerProc?.exitCode === null) { //video player is still running
             if (!this.vidPlayerProc.kill()) {
@@ -36,7 +35,7 @@ export class VideoPlayerService {
             }
         }
 
-        this.vidPlayerProc = spawn(vidPlayerExe, [vidPlayerPreURLFlags, directLink]);
+        this.vidPlayerProc = spawn(vidPlayerExe, [vidPlayerPreURLFlags, directLink.toString()]);
 
         this.vidPlayerProc.stdout.on("data", data => {
             this.logger.log(`stdout: ${data}`);

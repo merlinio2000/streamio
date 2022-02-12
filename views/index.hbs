@@ -1,14 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Streamio</title>
-  </head>
-  <body>
-      <form action="/streamio/episodes" method="GET">
-        <label for="vidURL">Video Link</label>
-        <input type="url" id="vidURL" name="vidURL">
-        <input type="submit" vlaue="Submit">
-      </form>
-  </body>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Streamio</title>
+  <link rel="stylesheet" type="text/css" href="/styles/index.css">
+</head>
+
+<body>
+
+  <form class="textsubmit" action="/streamio/episodes" method="GET">
+    <label class="textsubmit-item" for="vidURL">Video Link</label><br>
+    <input class="textsubmit-item" type="text" id="vidURL" name="vidURL">
+    <input class="textsubmit-item" type="submit" value="Play">
+  </form>
+
+  <br>
+
+  <container class="video-controls">
+    <button class="video-control-item" type="button" class="flex-item">
+      Pause
+    </button>
+    <button class="video-control-item" type="button" class="flex-item">
+      Play
+    </button>
+    <button class="video-control-item" type="button" class="flex-item">
+      Kill
+    </button>
+  </container>
+
+
+
+</body>
+
 </html>

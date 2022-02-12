@@ -4,13 +4,13 @@ import puppeteer from 'puppeteer';
 @Injectable()
 export class StreamioPuppeteerService {
 
-  private static readonly logger = new Logger(StreamioPuppeteerService.name);
+  private readonly logger = new Logger(StreamioPuppeteerService.name);
 
-  static async getDefaultBrowser(): Promise<puppeteer.Browser> {
+  async getDefaultBrowser(): Promise<puppeteer.Browser> {
     return puppeteer.launch({ executablePath: '/usr/lib/chromium/chromium', headless: true });
   }
 
-  static async getVidDirectLink(url: string): Promise<string> {
+  async getVidDirectLink(url: string): Promise<string> {
 
     let results: string[] = [];
 
@@ -39,7 +39,7 @@ export class StreamioPuppeteerService {
     page.on('response', (response) => {
       if (response.url().startsWith("https://fstreaming.net")) {
         results.push(response.url());
-        this.logger.log('<<', response.status(), response.url());
+        this.logger.log(`<< ${response.status()}, ${response.url()}`);
       }
     });
 

@@ -2,6 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="/styles/episodes.css">
+    <link rel="stylesheet" type="text/css" href="/styles/index.css">
     <meta charset="utf-8" />
     <title>Streamio Episodes Overview</title>
   </head>
@@ -11,7 +12,7 @@
             <li class="flex-item">
               <div class="flex-container episode">
                 <p>{{this.name}}</p>
-                <button class="play-episode" onclick="window.location.href = 'http://localhost:3001/streamio/play/{{this.url}}';">Play</button>
+                <button class="play-episode" onclick="window.location.href = '/streamio/play/{{this.url}}';">Play</button>
             </li>
         {{/each}}
     </ul>

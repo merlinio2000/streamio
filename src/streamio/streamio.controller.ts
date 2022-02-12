@@ -7,6 +7,7 @@ import {
 import { AvailableEpisodesResponse } from './interfaces/available-episodes-response.interface.js';
 import { EpisodeRequest } from './interfaces/episode-request.interface.js';
 import { Response } from './interfaces/response.interface.js';
+import { StreamioPuppeteerService } from './util/puppeteer.master.js';
 import { VideoPlayerService } from './util/video.player.service.js';
 import { WebUtil } from './util/web.util.js';
 
@@ -23,7 +24,8 @@ export class StreamioController implements OnModuleInit {
 
 
   constructor(@Inject('STREAMIO_PACKAGE') private readonly client: ClientGrpc,
-                                          private readonly configService: ConfigService, 
+                                          private readonly configService: ConfigService,
+                                          private readonly puppeteerService: StreamioPuppeteerService, 
                                           private readonly vidPlayerService: VideoPlayerService) { }
 
   onModuleInit() {
@@ -59,7 +61,11 @@ export class StreamioController implements OnModuleInit {
 
     this.logger.debug(`playEpisode ${toPlay.vidUrl}`);
 
-    return await this.vidPlayerService.playEpisode(toPlay);
+    const directLink = await this.puppeteerService.getVidDirectLink(toPlay.vidUrl);
+
+    this.logger.debug(`Got direct link<${directLink}`);
+
+    return await this.vidPlayerService.playEpisode(new URL(directLink));
   }
 
 

@@ -1,0 +1,30 @@
+
+.textsubmit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+    margin: 10em;
+    flex-direction: column;
+}
+
+.textsubmit-item {
+    justify-content: center;
+    width: auto;
+    flex-grow: 1;
+    margin: 1.5em;
+}
+
+
+.video-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.video-control-item {
+    width: 30%;
+    padding: 2em;
+    background-color: cornflowerblue;
+    font-size: x-large;
+}
