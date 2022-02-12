@@ -3,17 +3,13 @@
   <head>
     <link rel="stylesheet" type="text/css" href="/styles/main.css">
     <meta charset="utf-8" />
-    <title>App</title>
+    <title>Streamio</title>
   </head>
   <body>
-    <ul class="flex-container episode-list">
-        {{#each episodes}}
-            <li class="flex-item">
-              <div class="flex-container episode">
-                <p>{{this.name}}</p>
-                <button class="play-episode" onclick="window.location.href = 'http://localhost:3001/streamio/play/{{this.url}}';">Play</button>
-            </li>
-        {{/each}}
-    </ul>
+      <form action="/streamio/episodes" method="GET">
+        <label for="vidURL">Video Link</label>
+        <input type="url" id="vidURL" name="vidURL">
+        <input type="submit" vlaue="Submit">
+      </form>
   </body>
 </html>

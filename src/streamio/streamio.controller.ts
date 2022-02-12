@@ -1,4 +1,4 @@
-import { ConsoleLogger, Controller, Get, Inject, Logger, OnModuleInit, Param, Render } from '@nestjs/common';
+import { ConsoleLogger, Controller, Get, Inject, Logger, OnModuleInit, Param, Query, Render } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import {
   ClientGrpc,
@@ -38,9 +38,8 @@ export class StreamioController implements OnModuleInit {
 
   @Get("/index")
   @Render("index.hbs")
-  async index(@Param('vidUrl') vidUrl$: string): Promise<Response> {
-    this.logger.log('vidUrl=>' + vidUrl$);
-    return (await this.streamioService.playEpisode({ vidUrl: vidUrl$ }));
+  async index(): Promise<void> {
+    this.logger.debug('opening index');
   }
 
   @Get('/play/:vidUrl')
@@ -49,9 +48,9 @@ export class StreamioController implements OnModuleInit {
     return (await this.streamioService.playEpisode({ vidUrl: vidUrl$ }));
   }
 
-  @Get("/episodes/:someEpisodeURL")
+  @Get("/episodes")
   @Render("episodes.hbs")
-  async viewAvailableEpisodes(@Param("someEpisodeURL") someEpisodeURL: string) {
+  async viewAvailableEpisodes(@Query('vidURL') someEpisodeURL: string) {
     return (await this.getAvailableEpisodes({vidUrl: someEpisodeURL}));
   }
 
