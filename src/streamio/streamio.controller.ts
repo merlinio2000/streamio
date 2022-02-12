@@ -43,6 +43,14 @@ export class StreamioController implements OnModuleInit {
     this.logger.debug('opening index');
   }
 
+
+  @Get("/control")
+  async controlVideoPlayer(@Query("action") action: string): Promise<string> {
+    this.logger.debug("controling video player with action " + action);
+    return "called with " + action;
+  }
+
+
   @Get('/play/:vidUrl')
   async playByURL(@Param('vidUrl') vidUrl$: string): Promise<Response> {
     this.logger.debug('play=>' + vidUrl$);

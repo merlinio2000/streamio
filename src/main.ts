@@ -24,6 +24,7 @@ async function bootstrap() {
   app.connectMicroservice<MicroserviceOptions>(grpcClientOptions);
 
   app.useStaticAssets(join(__dirname, 'views/styles'), { prefix: "/styles/"});
+  app.useStaticAssets(join(__dirname, 'views/scripts'), { prefix: "/scripts/"});
   app.setBaseViewsDir(join(__dirname, 'views'));
   app.setViewEngine('hbs');
 

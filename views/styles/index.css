@@ -1,20 +1,33 @@
-
 .textsubmit {
     display: flex;
-    justify-content: center;
     align-items: center;
-    font-size: large;
-    margin: 10em;
+    font-size: x-large;
+    padding: 7em;
     flex-direction: column;
+    width: auto;
 }
 
 .textsubmit-item {
-    justify-content: center;
-    width: auto;
-    flex-grow: 1;
-    margin: 1.5em;
+    text-align: center;
+    flex-shrink: 0;
+    width: 50%;
+    min-width: max-content;
+    padding: .5em;
+    margin: 1em;
 }
 
+#video-label {
+    padding-top: 0em;
+    padding-bottom: 0em;
+}
+
+#video-input {
+    height: 3em;
+}
+
+#video-submit {
+    
+}
 
 .video-controls {
     display: flex;
@@ -23,7 +36,8 @@
 }
 
 .video-control-item {
-    width: 30%;
+    width: 20%;
+    flex-shrink: 0;
     padding: 2em;
     background-color: cornflowerblue;
     font-size: x-large;

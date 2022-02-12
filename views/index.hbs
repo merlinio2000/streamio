@@ -1,36 +1,29 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8" />
   <title>Streamio</title>
   <link rel="stylesheet" type="text/css" href="/styles/index.css">
+  <script src="/scripts/video-interaction.js"></script>
 </head>
-
 <body>
-
   <form class="textsubmit" action="/streamio/episodes" method="GET">
-    <label class="textsubmit-item" for="vidURL">Video Link</label><br>
-    <input class="textsubmit-item" type="text" id="vidURL" name="vidURL">
-    <input class="textsubmit-item" type="submit" value="Play">
+    <label id="video-label" class="textsubmit-item" for="vidURL"><h1>Video Link</h1></label><br>
+    <input id="video-input" class="textsubmit-item" type="text" id="vidURL" name="vidURL">
+    <input id="video-submit" class="textsubmit-item video-control-item" type="submit" value="Show Episodes">
   </form>
-
   <br>
-
-  <container class="video-controls">
-    <button class="video-control-item" type="button" class="flex-item">
+  <div class="video-controls">
+    <button class="video-control-item" type="button" class="flex-item" onclick="doAction(this)">
       Pause
     </button>
-    <button class="video-control-item" type="button" class="flex-item">
+    <button class="video-control-item" type="button" class="flex-item" onclick="doAction(this)">
       Play
     </button>
-    <button class="video-control-item" type="button" class="flex-item">
+    <button class="video-control-item" type="button" class="flex-item" onclick="doAction(this)">
       Kill
     </button>
-  </container>
-
-
-
+  </div>
+  <text id="player-response"></text>
 </body>
-
 </html>
