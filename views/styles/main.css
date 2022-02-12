@@ -1,0 +1,29 @@
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+  
+.flex-item {
+    background-color: cornflowerblue;
+    width: 40%;
+    height: auto;
+    margin: 1%;
+    padding: 1em;
+    flex-grow: 1;
+}
+
+.episode-list {
+    list-style-type: none;
+}
+
+.episode {
+    flex-direction: row;
+    justify-content: baseline;
+}
+
+.play-episode {
+    margin-right: 0%;
+    margin-left: auto;
+    padding-left: 5em;
+    padding-right: 5em;
+}

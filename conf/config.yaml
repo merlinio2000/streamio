@@ -1,0 +1,6 @@
+video-player:
+  exe: 'mpv'
+  ipc:
+    exe-suffix-socket-location: '--input-ipc-server=/tmp/mpvsocket'
+    pause:  '{"command": ["cycle", "pause"]}'
+    play: '{"command": ["cycle", "pause"]}'

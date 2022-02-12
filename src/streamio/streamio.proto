@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package streamio;
+
+service StreamioService {
+  rpc PlayEpisode (EpisodeRequest) returns (Response);
+  rpc GetAvailableEpisodes (EpisodeRequest) returns (AvailableEpisodesResponse);
+}
+
+message EpisodeRequest {
+  string vidUrl = 1;
+}
+
+message FrontendEpisode {
+  string url = 1;
+  string name = 2;
+}
+
+message AvailableEpisodesResponse {
+  repeated FrontendEpisode episodes = 1;
+}
+
+message Response {
+  int32 code = 1;
+  string msg = 2;
+}
