@@ -1,7 +1,7 @@
 import { writeFileSync } from 'fs';
 import { got }from 'got';
 import { parse } from 'parse5';
-import { FrontendEpisode } from './interfaces/frontend-episode.interface.js';
+import { FrontendEpisode } from '../interfaces/frontend-episode.interface.js';
 import xmlserializer from 'xmlserializer';
 import { DOMParser as dom } from 'xmldom';
 import * as xpath from 'xpath';
