@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
+import { ChildProcessWithoutNullStreams, execSync, spawn } from 'child_process';
 import { EpisodeRequest } from './../interfaces/episode-request.interface.js';
 import { Response } from './../interfaces/response.interface.js';
 import { StreamioPuppeteerService } from './puppeteer.master.js';
@@ -22,12 +22,31 @@ export class VideoPlayerService {
     constructor(private readonly configService: ConfigService) { }
 
 
+    controlPlayer(action: string): string {
+        const ipcCmd = this.configService.get<string>(`video-player.ipc.${action}`);
+        const ipcPath = this.configService.get<string>("video-player.ipc.socket-path");
+
+        if (ipcCmd === undefined) {
+            return `Command ${action} not implemented`;
+        }
+        if (ipcPath === undefined) {
+            return "video-player.ipc.socket-path not declared";
+        }
+
+        const stdout = execSync(`echo '${ipcCmd}' | socat - ${ipcPath}`).toString();
+
+        return stdout;
+    }
+
+
     async playEpisode(directLink: URL): Promise<Response> {
 
         const vidPlayerExe = this.configService.get<string>("video-player.exe");
-        const vidPlayerPreURLFlags = this.configService.get<string>("video-player.pre-url-flags")
+        const vidPlayerPreURLFlags = this.configService.get<string>("video-player.pre-url-flags");
+        const vidPlayerIPCFlag = this.configService.get<string>("video-player.ipc.socket-flag") 
+                                    + this.configService.get<string>("video-player.ipc.socket-path")
 
-        this.logger.log(`Starting video player with os command<${vidPlayerExe} ${directLink.toString()}>`);
+        this.logger.log(`Starting video player with os command<${vidPlayerExe} ${directLink.toString()} ${vidPlayerIPCFlag}>`);
 
         if (this.vidPlayerProc?.exitCode === null) { //video player is still running
             if (!this.vidPlayerProc.kill()) {
@@ -35,7 +54,7 @@ export class VideoPlayerService {
             }
         }
 
-        this.vidPlayerProc = spawn(vidPlayerExe, [vidPlayerPreURLFlags, directLink.toString()]);
+        this.vidPlayerProc = spawn(vidPlayerExe, [vidPlayerPreURLFlags, directLink.toString(), vidPlayerIPCFlag]);
 
         this.vidPlayerProc.stdout.on("data", data => {
             this.logger.log(`stdout: ${data}`);
