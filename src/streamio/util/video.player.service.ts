@@ -1,9 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ChildProcessWithoutNullStreams, execSync, spawn } from 'child_process';
-import { EpisodeRequest } from './../interfaces/episode-request.interface.js';
 import { Response } from './../interfaces/response.interface.js';
-import { StreamioPuppeteerService } from './puppeteer.master.js';
 
 @Injectable()
 export class VideoPlayerService {
@@ -23,6 +21,12 @@ export class VideoPlayerService {
 
 
     controlPlayer(action: string): string {
+        
+        if (this.vidPlayerProc === null || this.vidPlayerProc.exitCode !== null) {
+            this.logger.warn(`tried to perform ${action} but no player process is running`);
+            return "No video is currently running";
+        }
+        
         const ipcCmd = this.configService.get<string>(`video-player.ipc.${action}`);
         const ipcPath = this.configService.get<string>("video-player.ipc.socket-path");
 
@@ -33,9 +37,17 @@ export class VideoPlayerService {
             return "video-player.ipc.socket-path not declared";
         }
 
-        const stdout = execSync(`echo '${ipcCmd}' | socat - ${ipcPath}`).toString();
+        let ipcStdout: string;
+        try {
+            //@TODO: ipcCmd and ipcPath should be sanitized even though they are managed through the config
+            ipcStdout = execSync(`echo '${ipcCmd}' | socat - ${ipcPath}`).toString();
+            this.logger.debug(`stdout of ipc call<${ipcStdout}>`);
+        } catch(err) {
+            ipcStdout = `Error performing action> ${err}`;
+            this.logger.error(ipcStdout);
+        }
 
-        return stdout;
+        return ipcStdout;
     }
 
 
