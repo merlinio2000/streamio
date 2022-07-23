@@ -1,0 +1,16 @@
+host:
+  urlHostname: 'membed.net'
+  playback:
+    pageNavigation:
+      stealthSlowdownMillis: 100
+      videoLoading:
+        clickSelector: "div.play-video"
+        awaitSelectorTimeoutMillis: 500
+        postClickTimeoutMillis: 1000
+        videoSourceHostname: 'vidfiles.net'
+  associatedEpisodeDetection:
+    xpathSelectors:
+      root: "//x:ul[@class='listing items lists']/x:li"
+      url: "./x:a/@href"
+      name: "./x:a/x:div[@class='name']/text()"
+      # TODO: Image URL

@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ChildProcessWithoutNullStreams, execSync, spawn } from 'child_process';
-import { Response } from './../interfaces/response.interface.js';
+import { Response } from '../interfaces/response.interface.js';
 
 @Injectable()
 export class VideoPlayerService {
@@ -30,10 +30,10 @@ export class VideoPlayerService {
         const ipcCmd = this.configService.get<string>(`video-player.ipc.${action}`);
         const ipcPath = this.configService.get<string>("video-player.ipc.socket-path");
 
-        if (ipcCmd === undefined) {
+        if (!ipcCmd) {
             return `Command ${action} not implemented`;
         }
-        if (ipcPath === undefined) {
+        if (!ipcPath) {
             return "video-player.ipc.socket-path not declared";
         }
 

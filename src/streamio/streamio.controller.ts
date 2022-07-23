@@ -4,11 +4,11 @@ import {
   ClientGrpc,
   GrpcMethod
 } from '@nestjs/microservices';
-import { AvailableEpisodesResponse } from './interfaces/available-episodes-response.interface.js';
-import { EpisodeRequest } from './interfaces/episode-request.interface.js';
-import { Response } from './interfaces/response.interface.js';
-import { StreamioPuppeteerService } from './util/puppeteer.master.js';
-import { VideoPlayerService } from './util/video.player.service.js';
+import { AvailableEpisodesResponse } from './interfaces/available-episodes-response.interface';
+import { EpisodeRequest } from './interfaces/episode-request.interface';
+import { Response } from './interfaces/response.interface';
+import { PuppeteerMasterService } from './util/puppeteer-master.service.js';
+import { VideoPlayerService } from './util/video-player.service.js';
 import { WebUtil } from './util/web.util.js';
 
 interface StreamioService {
@@ -25,7 +25,9 @@ export class StreamioController implements OnModuleInit {
 
   constructor(@Inject('STREAMIO_PACKAGE') private readonly client: ClientGrpc,
                                           private readonly configService: ConfigService,
-                                          private readonly puppeteerService: StreamioPuppeteerService, 
+                                          @Inject('PuppeteerMasterService')
+                                          private readonly puppeteerService: PuppeteerMasterService, 
+                                          @Inject('VideoPlayerService')
                                           private readonly vidPlayerService: VideoPlayerService) { }
 
   onModuleInit() {
@@ -54,7 +56,13 @@ export class StreamioController implements OnModuleInit {
   @Get('/play/:vidUrl')
   async playByURL(@Param('vidUrl') vidUrl$: string): Promise<Response> {
     this.logger.debug('play=>' + vidUrl$);
-    return (await this.streamioService.playEpisode({ vidUrl: vidUrl$ }));
+    return this.streamioService.playEpisode({ vidUrl: vidUrl$ });
+  }
+
+  @Get('/raw/episodes')
+  async getAvailableEpisodesRaw(@Query('vidURL') someEpisodeURL: string) {
+    this.logger.debug('raw episodes of' + someEpisodeURL);
+    return (await this.getAvailableEpisodes({ vidUrl: someEpisodeURL }));
   }
 
   @Get("/episodes")

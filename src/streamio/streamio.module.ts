@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule } from '@nestjs/microservices';
 import { grpcClientOptions } from '../grpc-client.options.js';
-import { StreamioPuppeteerService } from './util/puppeteer.master.js';
+import { PuppeteerMasterService } from './util/puppeteer-master.service.js';
 import { StreamioController } from './streamio.controller.js';
-import { WebUtil } from './util/web.util.js';
-import { VideoPlayerService } from './util/video.player.service.js';
+import { VideoPlayerService } from './util/video-player.service.js';
+import { HostDBModule } from '../host-db/host-db.module.js';
 
 @Module({
   imports: [
@@ -14,8 +14,11 @@ import { VideoPlayerService } from './util/video.player.service.js';
         ...grpcClientOptions,
       },
     ]),
+    HostDBModule,
   ],
   controllers: [StreamioController],
-  providers: [StreamioPuppeteerService, WebUtil, VideoPlayerService]
+  providers: [{ provide: 'PuppeteerMasterService', useClass: PuppeteerMasterService }, 
+        { provide: 'VideoPlayerService', useClass: VideoPlayerService }
+      ]
 })
 export class StreamioModule {}

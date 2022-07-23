@@ -98,11 +98,11 @@
 }
 
 .video-control-item {
-    width: 32%;
+    width: 30%;
     height: 25%;
     flex-shrink: 0;
-    padding: 1.5em;
-    margin: 3em;
+    padding: 1em;
+    margin: 1em;
     background-color: cornflowerblue;
     font-size: x-large;
 }

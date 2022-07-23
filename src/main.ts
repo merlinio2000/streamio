@@ -28,6 +28,7 @@ async function bootstrap() {
   app.setBaseViewsDir(join(__dirname, 'views'));
   app.setViewEngine('hbs');
 
+
   await app.startAllMicroservices();
   await app.listen(3001);
   console.log(`Application is running on: ${await app.getUrl()}`);
